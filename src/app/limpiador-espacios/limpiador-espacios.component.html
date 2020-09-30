@@ -1,0 +1,30 @@
+<div class="container">
+  <br><br>
+  <div class="center-form">
+
+    <div class="row">
+
+
+      <div class="col-6 col-md-6">
+        <p>
+          Este programa elimina los espacios duplicados y los saltos de linea <br>(util para tratar los textos copiados desde PDF).
+        </p>
+        <div class="form-group">
+          <h5>Pegue o ingrese aquí el texto a limpiar</h5>
+          <br>
+          <button type="button" (click)="copyInputMessage(userinput)"
+                  class="btn btn-primary">Procesar texto y copiar al portapapeles
+          </button>
+          <br>
+          <textarea #userinput placeholder="Ingrese texto aquí"
+                    style="height: 500px!important;width: 600px;"></textarea>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
