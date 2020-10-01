@@ -27,11 +27,10 @@ export class LimpiadorEspaciosComponent implements OnInit {
   }
 
 
-
   copyInputMessage(inputElement) {
     let texto = inputElement.value;
-    texto = this.eliminarSaltosLinea(texto);
     texto = this.eliminarMultipesEspacios(texto);
+    texto = this.eliminarSaltosLinea(texto);
     inputElement.value = texto;
     inputElement.select();
     document.execCommand('copy');
@@ -39,7 +38,7 @@ export class LimpiadorEspaciosComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
 
     //this.textMessageFunc('Text');
-    this.toastr.success("Copiado al portapapeles!","Procesado correctamente")
+    this.toastr.success('Copiado al portapapeles!', 'Procesado correctamente');
   }
 
 
@@ -54,17 +53,35 @@ export class LimpiadorEspaciosComponent implements OnInit {
         }
       } else {
         cantEspacio = 0;
-        result = result + texto.charAt(i);
+        if (texto.charAt(i) == '\n') {
+          result = result + ' ' + '\n';
+        } else {
+          result = result + texto.charAt(i);
+        }
       }
     }
     return result;
 
   }
 
-  eliminarSaltosLinea(texto){
-    const searchRegExp = /[^a-z((.|:)\n)]\n/gm;
-    const replaceWith = ' ';
-    const result = texto.replace(searchRegExp, replaceWith);
+  eliminarSaltosLinea(texto) {
+    /* const searchRegExp = /[^.:]\s\n/gm;
+     const replaceWith = ' ';
+     const result = texto.replace(searchRegExp, replaceWith);
+     return result;
+
+     */
+    let result = '';
+    let arraySplit = texto.split('\n');
+    for (var i = 0; i < arraySplit.length; i++) {
+      var itemString = arraySplit[i].trim();
+      result = result + itemString +' ';
+
+      if (itemString.charAt(itemString.length - 1) == '.' || itemString.charAt(itemString.length - 1) == ':') {
+        result = result + '\n';
+      }
+    }
+    result=result.trim() + '\n';
     return result;
   }
 }
