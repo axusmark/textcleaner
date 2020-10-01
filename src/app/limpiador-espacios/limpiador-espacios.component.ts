@@ -62,7 +62,7 @@ export class LimpiadorEspaciosComponent implements OnInit {
   }
 
   eliminarSaltosLinea(texto){
-    const searchRegExp = /[^(.\n)]\n/gm;
+    const searchRegExp = /[^a-z((.|:)\n)]\n/gm;
     const replaceWith = ' ';
     const result = texto.replace(searchRegExp, replaceWith);
     return result;
