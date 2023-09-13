@@ -14,13 +14,24 @@
         <div class="form-group">
           <h5>Pegue o ingrese aquí el texto a limpiar</h5>
           <br>
-          <button type="button" (click)="copyInputMessage(userinput)"
-                  class="btn btn-primary">Procesar texto y copiar al portapapeles
+          <button type="button" (click)="copyInputMessage(inputText)"
+                  class="btn btn-success">Procesar texto y copiar al portapapeles
           </button>
-          <br>
-          <textarea #userinput placeholder="Ingrese texto aquí" style="width: 100%; height: 20em"></textarea>
+          &nbsp; &nbsp;
+          <button type="button" (click)="limpiar(inputText)"
+                  class="btn badge-info">Limpiar texto
+          </button>
+          <br><br>
+          <textarea [(ngModel)]="textInput" #inputText placeholder="Ingrese texto aquí" style="width: 100%; height: 20em"></textarea>
         </div>
-
+        <div class="row">
+          <ul>
+            <li *ngFor="let txt of ultimosCopiados">{{txt}} -  <button type="button" (click)="copyDeHistorico(txt)"
+                                                                       class="btn btn-sm btn-success">Copiar al portapapeles</button>
+            <br><br>
+            </li>
+          </ul>
+        </div>
       </div>
 
 

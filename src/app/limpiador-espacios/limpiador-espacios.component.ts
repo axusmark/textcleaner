@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: 'app-limpiador-espacios',
@@ -7,12 +8,12 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./limpiador-espacios.component.css']
 })
 export class LimpiadorEspaciosComponent implements OnInit {
-
+  textInput:string;
   todaysDate: Date = new Date();
   textMessage: any;
   msgHideAndShow: boolean = false;
-
-  constructor(private toastr: ToastrService) {
+  ultimosCopiados=[];
+  constructor(private toastr: ToastrService,private clipboard: ClipboardService) {
     setInterval(() => {
       this.todaysDate = new Date();
     }, 1);
@@ -27,15 +28,22 @@ export class LimpiadorEspaciosComponent implements OnInit {
   }
 
 
-  copyInputMessage(inputElement) {
-    let texto = inputElement.value;
+  copyInputMessage(inputText: HTMLTextAreaElement) {
+    let texto = this.textInput;
     texto = this.eliminarMultipesEspacios(texto);
     texto = this.eliminarSaltosLinea(texto);
-    inputElement.value = texto;
-    inputElement.select();
-    document.execCommand('copy');
+    this.textInput = texto;
+    this.clipboard.copy(this.textInput);
+    this.ultimosCopiados.push(this.textInput);
 
-    inputElement.setSelectionRange(0, 0);
+    //this.textMessageFunc('Text');
+    this.toastr.success('Copiado al portapapeles!', 'Procesado correctamente');
+    this.limpiar(inputText);
+  }
+  copyDeHistorico(inputText: string) {
+    inputText = this.eliminarMultipesEspacios(inputText);
+    inputText = this.eliminarSaltosLinea(inputText);
+    this.clipboard.copy(inputText);
 
     //this.textMessageFunc('Text');
     this.toastr.success('Copiado al portapapeles!', 'Procesado correctamente');
@@ -83,5 +91,10 @@ export class LimpiadorEspaciosComponent implements OnInit {
     }
     result=result.trim() + '\n';
     return result;
+  }
+
+  limpiar(inputText: HTMLTextAreaElement){
+    this.textInput="";
+    inputText.select();
   }
 }
